@@ -1,0 +1,129 @@
+
+<div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalPersona">
+      Agregar
+    </button>
+</div>
+<div>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">DNI</th>
+        <th scope="col">Edad</th>
+       
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of personas">
+        <td>{{i.id}}</td>
+        <td>{{i.nombre}}</td>
+        <td>{{i.apellido}}</td>
+        <td>{{i.dni}}</td>
+        <td>{{i.edad}}</td>
+        
+        <td> 
+            <button type="button" class="btn btn-danger"(click)="delete(i.id)">Eliminar</button>
+            <button type="button" class="btn btn-warning" (click)=obtenerId(i.id)
+             data-toggle="modal" data-target="#modalPersona"
+            >Editar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<form [formGroup]="persona" novalidate="">
+        <!--MODAL-->
+        <div class="modal fade" id="modalPersona" tabindex="-1" role="dialog" aria-labelledby="modalPersona" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">  
+                <div class="col 12">
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Nombre</span>
+                      </div>
+                      <input  [ngClass]="{'is-invalid': !persona.get('nombre').valid}" 
+                      type="text" class="form-control" placeholder="Nombre" 
+                      aria-label="Nombre" aria-describedby="basic-addon1" formControlName="nombre">
+                      <div *ngIf="persona.controls['nombre'].errors?.required" class="invalid-feedback">
+                        El nombre es necesario
+                      </div>
+                      <div *ngIf="persona.controls['nombre'].errors?.pattern" class="invalid-feedback">
+                        Solo se permiten letras
+                      </div>
+                  </div>
+              
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Apellido</span>
+                      </div>
+                      <input  [ngClass]="{'is-invalid': !persona.get('apellido').valid}" 
+                      type="text" class="form-control" placeholder="Apellido"
+                       aria-label="Apellido" aria-describedby="basic-addon1"  formControlName="apellido">
+                       <div *ngIf="persona.controls['apellido'].errors?.required" class="invalid-feedback">
+                        El apellido es necesario
+                      </div>
+                      <div *ngIf="persona.controls['apellido'].errors?.pattern" class="invalid-feedback">
+                        Solo se permiten letras
+                      </div>
+                  </div>
+        
+              
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">DNI</span>
+                      </div>
+                      <input  [ngClass]="{'is-invalid': !persona.get('dni').valid}" 
+                      type="text" class="form-control" placeholder="dni" 
+                      aria-label="dni" aria-describedby="basic-addon1" formControlName="dni">
+                      <div *ngIf="persona.controls['dni'].errors?.required" class="invalid-feedback">
+                        El dni es necesario
+                      </div>
+                      <div *ngIf="persona.controls['dni'].errors?.minlength" class="invalid-feedback">
+                        Debe tener 8 caracteres
+                      </div>
+                      <div *ngIf="persona.controls['dni'].errors?.maxlength" class="invalid-feedback">
+                        Debe tener 8 caracteres
+                      </div>
+                      <div *ngIf="persona.controls['dni'].errors?.pattern" class="invalid-feedback">
+                      Solo numeros
+                     </div>
+                  </div>
+              
+                  <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Edad</span>
+                      </div>
+                      <input  [ngClass]="{'is-invalid': !persona.get('edad').valid}" 
+                      type="text" class="form-control" placeholder="Edad" 
+                      aria-label="Edad" aria-describedby="basic-addon1" formControlName="edad">
+                      <div *ngIf="persona.controls['edad'].errors?.required" class="invalid-feedback">
+                        El edad es necesario
+                      </div>
+                      <div *ngIf="persona.controls['edad'].errors?.pattern" class="invalid-feedback">
+                        Solo numeros y maximo 3 caracteres
+                      </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="modal-footer">
+                <button class="btn btn-success" (click)="addEdit()" [disabled]="persona.invalid">Guardar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </form>
